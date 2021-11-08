@@ -1,0 +1,27 @@
+{"intents": [
+  {"tag": "hi",
+	"patterns": ["hello","Greetings","hi", "how you doing?"],
+	"responses": ["hello", "hey","greetings"]},
+  {"tag": "goodbye",
+	"patterns": ["cya","see you later","have a good day", "bye"],
+	"responses": ["sad to see you go", "talk to you later","goodbye"]},
+  {"tag": "help",
+	"patterns": ["I think I saw something","I saw a cryptid"],
+	"responses": ["which continent did you see it?"]},
+  {"tag": "America",
+	"patterns": ["America"],
+	"responses": ["Was it an animal or humanoid?"]},
+  {"tag": "Animal",
+	"patterns": ["Animal in America","Animal"],
+	"responses": ["Short hair or long hair?"]},
+  {"tag": "longhair",
+	"patterns": ["longhair","long hair","long hair animal in America","long hair animal in United States"],
+	"responses": ["It could be bigfoot"]},
+  {"tag": "Humanoid",
+	"patterns": ["it looked human","humanoid","it was a humanoid in America"],
+	"responses": ["strange, it could be a giant"]},
+  {"tag": "Europe",
+	"patterns": ["cya","see you later","have a good day", "bye"],
+	"responses": ["Sorry mate, I know nothing about Europe"]}		
+]}
+

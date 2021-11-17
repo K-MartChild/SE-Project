@@ -12,8 +12,11 @@ import numpy as np
 import nltk 
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
+from IPython.display import display, Image
+
 nltk.download('punkt')
 nltk.download('wordnet')
+nltk.download("all")
 
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open("intents.json").read())
@@ -24,11 +27,15 @@ model = load_model("chatbot_model.h5")
 
 def clean_up_sentence(sentence):
   sentence_words = nltk.word_tokenize(sentence)
+  print(sentence_words)
+  
   sentence_words = [lemmatizer.lemmatize(word) for word in sentence_words]
+  print(sentence_words)
   return sentence_words
 
 def bag_of_words(sentence):
   sentence_words = clean_up_sentence(sentence)
+  print(sentence_words)
   bag = [0] * len(words)
   for w in sentence_words:
     for i,word in enumerate(words):
@@ -39,13 +46,15 @@ def bag_of_words(sentence):
 def predict_class(sentence):
   bow = bag_of_words(sentence)
   res = model.predict(np.array([bow]))[0]
-  ERROR_THRESHOLD = 0.25
+  ERROR_THRESHOLD = 0.01
   results = [[i,r] for i,r in enumerate(res) if r > ERROR_THRESHOLD]
+  print("results: ",results)
 
   results.sort(key=lambda x: x[1], reverse=True)
   return_list = []
   for r in results:
     return_list.append({"intent": classes[r[0]], "probability": str(r[1])})
+  print(return_list)
   return return_list
 
 def get_response(intents_list,intents_json):
@@ -56,10 +65,20 @@ def get_response(intents_list,intents_json):
       result = random.choice(i["responses"])
       break
   return result
-print("running")
+print("***Write 'Bye' to exit***")
+
+alist = ["Bigfoot.jpg","Brosnya.jpg","Ningen.jpg","Nahuelito.jpg","LochNess.jpg","Igopogo.jpg"]
 
 while True:
   message = input("")
+  if message=="Bye":
+    print("Bye!")
+    break
   ints = predict_class(message)
   res = get_response(ints, intents)
-  print(res)
+  if res in alist:
+    display(Image(filename=res))
+    print("It was "+res[:-4]+"!")
+    break
+  else:
+    print(res)
